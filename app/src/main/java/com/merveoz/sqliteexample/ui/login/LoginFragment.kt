@@ -41,69 +41,28 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 if(checkFields(email, password)) {
                     sharedPref.edit().putBoolean("isLogin", true).apply() //veri set etme işlemi.
                     findNavController().navigate(R.id.loginToDailyNotes)
-                } else {
-                    Snackbar.make(it, "please fill in the blanks!", 1000).show()
                 }
             }
         }
-
-
     }
     //verileri kontrol etmek için
     private fun checkFields(email: String, password: String): Boolean {
         return when {
-            Patterns.EMAIL_ADDRESS.matcher(email).matches().not() -> false
-            password.isEmpty() -> false
-            password.length < 6 -> false
+            Patterns.EMAIL_ADDRESS.matcher(email).matches().not() -> {
+                binding.tilEmail.error = "E-mail is not valid!"
+                false
+            }
+            password.isEmpty() -> {
+                binding.tilEmail.isErrorEnabled = false
+                binding.tilPassword.error = "Password is empty!"
+                false
+            }
+            password.length < 6 -> {
+                binding.tilEmail.isErrorEnabled = false
+                binding.tilPassword.error = "Password should be at least 6 character"
+                false
+            }
             else -> true
         }
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
